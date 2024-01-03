@@ -99,14 +99,18 @@ function update() {
     }
 
     //clear pipes
-    while (pipeArray.length > 0 && pipeArray[0].x < 0) {
-        
+    while (pipeArray.length > 0 && pipeArray[0].x < -pipeWidth) {
+        pipeArray.shift(); // removes first element from the array
     }
 
     //score
     context.fillStyle = "white";
     context.font = "45px sans-serif";
     context.fillText(score, 5, 45);
+
+    if (gameOver) {
+        context.fillText("GAME OVER", 5, 90);
+    }
 }
 
 
@@ -146,6 +150,14 @@ function moveBird(e) {
     if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
         //jump
         velocityY = -6;
+
+        //reset game
+        if (gameOver) {
+            bird.y = birdY;
+            pipeArray = [];
+            score = 0;
+            gameOver = false;
+        }
     }
 }
 
